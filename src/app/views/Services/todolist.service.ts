@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class TodolistService {
-  private apiUrl = 'http://localhost:5268/api/'; // Replace with your API URL
+  private apiUrl = 'https://trial-3v1m.onrender.com/api/'; // Replace with your API URL
 
   constructor(private http: HttpClient) {}
 
