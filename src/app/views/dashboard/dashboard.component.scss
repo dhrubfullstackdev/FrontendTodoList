@@ -1,0 +1,115 @@
+.custom-datepicker-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.mat-datepicker-popup {
+  z-index: 1050; 
+}
+.icon-button:focus-visible {
+  outline: none;
+}
+
+.d-grid {
+  gap: 0.5rem;
+}
+
+.align-items-center > .icon-button {
+  margin-top: 0; /* Ensure no unintended spacing */
+}
+.mat-datepicker{
+  position: absolute;
+}
+.container {
+  margin: 16px;
+}
+
+.add-task-card,
+.tasks-card {
+  margin: 16px 0;
+  padding: 16px;
+}
+
+.add-task {
+  display: flex;
+  gap: 16px;
+}
+
+.full-width {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 16px;
+}
+
+.spacer {
+  flex: 1;
+}
+a{
+  cursor:pointer;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px; 
+}
+/* Styling for the Task Input */
+.task-input {
+  border: 1px solid #d1d1e9;
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 80%;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.task-input:focus {
+  border-color: #7b61ff; /* Purple border on focus */
+  box-shadow: 0 0 5px rgba(123, 97, 255, 0.5);
+}
+/* Styling for the Add Button */
+.add-task-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #6c63ff;
+  color: #6c63ff;
+  transition: all 0.3s;
+}
+
+.add-task-button:hover {
+  background-color: #6c63ff;
+  color: #fff;
+}
+
+/* Collapsible Section */
+.collapse-container {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-out;
+}
+.collapse-container.show {
+  max-height: 200px; /* Adjust as needed */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .task-input {
+    font-size: 0.9rem;
+  }
+
+  .icon-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .add-task-button {
+    width: 100%;
+  }
+}
+

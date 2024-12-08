@@ -1,0 +1,263 @@
+<div>
+  <c-row>
+    <c-col sm="9">
+      <h4 class="card-title mb-0" id="traffic">Today</h4>
+      <div class="small text-medium-emphasis">{{ currentDate }}</div>
+    </c-col>
+    <c-col sm="3">
+      <c-alert
+        [color]="alertType === 'success' ? 'success' : 'danger'"
+        [visible]="alertVisible"
+        class="d-flex align-items-center p-1"
+        style="font-size: 16px; padding: 5px; margin: 0"
+      >
+        <svg
+          *ngIf="alertType === 'success'"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="green"
+          class="bi bi-check-circle-fill me-1"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+          />
+        </svg>
+        <svg
+          *ngIf="alertType === 'error'"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="red"
+          class="bi bi-exclamation-circle-fill me-1"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M8 16a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm.93-11.412-2.29.287-.082.38.45.083.301 1.72.262-.134.08-.461-.405-.267.178-.917 1.41.452-.162.343zM8 4.146a.512.512 0 0 1 .146.354v3.333a.512.512 0 0 1-.146.354.488.488 0 0 1-.354.146H7.5a.488.488 0 0 1-.354-.146.512.512 0 0 1-.146-.354V4.5a.512.512 0 0 1 .146-.354.488.488 0 0 1 .354-.146h.5a.488.488 0 0 1 .354.146z"
+          />
+        </svg>
+        <div>{{ alertMessage }}</div>
+      </c-alert>
+    </c-col>
+  </c-row>
+</div>
+
+<c-card>
+  <c-card-body>
+    <form [formGroup]="form">
+      <a (click)="toggleCollapse()" class="text-decoration-none">
+        <c-row>
+          <c-input-group>
+            <span cInputGroupText>
+              <i
+                class="bi"
+                [ngClass]="changeIcon ? 'bi-plus-lg' : 'bi bi-circle'"
+              ></i>
+            </span>
+            <input
+              aria-label="Text input with radio button"
+              cFormControl
+              formControlName="task"
+              id="task"
+              class="task-input"
+              placeholder="Add a Task"
+            />
+          </c-input-group>
+        </c-row>
+      </a>
+    </form>
+  </c-card-body>
+</c-card>
+
+<c-card class="mt-1 mb-4 collapse-container" [visible]="visible" cCollapse>
+  <c-card-body>
+    <c-row>
+      <c-col sm="10">
+        <input
+          matInput
+          [matDatepicker]="picker"
+          (dateChange)="onDateSelected($event)"
+          hidden
+        />
+        <mat-datepicker #picker></mat-datepicker>
+        <div class="d-flex align-items-center">
+          <!-- Calendar Button -->
+          <button
+            cButton
+            color="secondary"
+            variant="outline"
+            size="sm"
+            class="me-2"
+            cTooltip="Add due date"
+            (click)="picker.open()"
+          >
+            <i class="bi bi-calendar4-event"></i>
+          </button>
+
+          <!-- Bell Icon Button -->
+          <button
+            cButton
+            color="secondary"
+            variant="outline"
+            size="sm"
+            cTooltip="Remind me"
+            class="me-2"
+          >
+            <i class="bi bi-bell"></i>
+          </button>
+
+          <!-- Repeat Icon Button -->
+          <button
+            cButton
+            color="secondary"
+            variant="outline"
+            size="sm"
+            cTooltip="Repeat"
+            class="me-2"
+          >
+            <i class="bi bi-repeat"></i>
+          </button>
+        </div>
+      </c-col>
+
+      <c-col sm="2" class="text-end">
+        <div class="d-flex justify-content-end align-items-center">
+          <button
+            [disabled]="form.invalid"
+            [cTooltip]="isEditing ? 'Update' : 'Add task'"
+            cButton
+            size="sm"
+            color="secondary"
+            variant="outline"
+            class="me-2"
+            (click)="onSubmit()"
+          >
+            <i
+              class="bi"
+              [ngClass]="isEditing ? 'bi-check-lg' : 'bi-plus-lg'"
+            ></i>
+            <!-- {{ currentTaskId !== null ? "Update" : "Add" }} -->
+          </button>
+
+          <button
+            type="button"
+            (click)="cancelEdit()"
+            cTooltip="Cancel"
+            cButton
+            size="sm"
+            color="danger"
+            variant="outline"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </c-col>
+    </c-row>
+  </c-card-body>
+</c-card>
+
+<c-row class="mt-4">
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-header>Tasks</c-card-header>
+      <c-card-body>
+        <table
+          [hover]="true"
+          [responsive]="true"
+          align="middle"
+          cTable
+          class="mb-0 border"
+        >
+          <thead cTableColor="light">
+            <tr>
+              <th class="text-center">Status</th>
+              <th class="text-center">Task</th>
+              <th class="text-center">DueDate</th>
+              <th class="text-center">Importance</th>
+              <th class="text-center">Activity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let res of tasks">
+              <td class="text-center circleicon">
+                <button
+                  cButton
+                  color="secondary"
+                  variant="outline"
+                  size="sm"
+                  *ngIf="!res.isCompleted"
+                  (click)="changeStatus(res)"
+                  cTooltip="Mark as complete"
+                >
+                  <i class="bi bi-circle"></i>
+                </button>
+                <button
+                  cButton
+                  color="secondary"
+                  variant="outline"
+                  size="sm"
+                  *ngIf="res.isCompleted"
+                  (click)="changeStatus(res)"
+                  cTooltip="Remove status"
+                >
+                  <i class="bi bi-check-circle"></i>
+                </button>
+              </td>
+              <td class="text-center">{{ res.description }}</td>
+              <td class="text-center">{{ res.dueDate }}</td>
+              <td class="text-center">
+                <button
+                  cTooltip="Mark task as important."
+                  cButton
+                  color="secondary"
+                  variant="outline"
+                  size="sm"
+                  *ngIf="res.priority == 3"
+                  (click)="changeImp(res)"
+                >
+                  <i class="bi bi-star"></i>
+                </button>
+                <button
+                  cTooltip="Remove importance"
+                  cButton
+                  color="secondary"
+                  variant="outline"
+                  size="sm"
+                  *ngIf="res.priority == 1"
+                  (click)="changeImp(res)"
+                >
+                  <i class="bi bi-star-fill"></i>
+                </button>
+              </td>
+              <td class="text-center">
+                <button
+                  class="me-1"
+                  cButton
+                  color="secondary"
+                  variant="outline"
+                  size="sm"
+                  (click)="editTask(res)"
+                  cTooltip="Edit"
+                >
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <!-- Delete Button -->
+                <button
+                  cButton
+                  color="danger"
+                  variant="outline"
+                  size="sm"
+                  (click)="deleteTask(res)"
+                  cTooltip="Delete"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
